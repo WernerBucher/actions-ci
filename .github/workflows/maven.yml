@@ -7,7 +7,7 @@ on:
     branches: [ "master" ]
 
 jobs:
-  Clean:
+  clean:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -20,8 +20,9 @@ jobs:
     - name: Clean
       run: mvn -B clean --file pom.xml
   
-  Compile:
+  compile:
     runs-on: ubuntu-latest
+    needs: clean
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
@@ -32,8 +33,10 @@ jobs:
         cache: maven
     - name: Compile
       run: mvn -B compile --file pom.xml
-  Test:
+      
+  test:
     runs-on: ubuntu-latest
+    needs: compile
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
@@ -44,8 +47,10 @@ jobs:
         cache: maven
     - name: Test
       run: mvn -B test --file pom.xml
-  Build:
+      
+  build:
     runs-on: ubuntu-latest
+    needs: test
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
