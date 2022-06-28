@@ -7,10 +7,8 @@ on:
     branches: [ "master" ]
 
 jobs:
-  build:
-
+  Clean:
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v3
     - name: Set up JDK 8
@@ -21,9 +19,40 @@ jobs:
         cache: maven
     - name: Clean
       run: mvn -B clean --file pom.xml
+  
+  Compile:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: maven
     - name: Compile
       run: mvn -B compile --file pom.xml
+  Test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: maven
     - name: Test
       run: mvn -B test --file pom.xml
+  Build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up JDK 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: maven
     - name: Build
-      run: mvn -B package --file pom.xml
+      run: mvn -B package -DskipTests --file pom.xml
